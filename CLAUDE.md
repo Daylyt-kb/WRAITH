@@ -1,73 +1,57 @@
-# WRAITH Public — Claude Code Build Instructions
+# WRAITH Public — BUILD THIS NOW
 
-## ⚠️ ON STARTUP — BUILD IMMEDIATELY (NO QUESTIONS)
+## ON STARTUP — DO THIS IN ORDER. NO QUESTIONS. NO ASSESSMENTS. JUST BUILD.
 
-1. Read `FEEDBACK.md`
-2. Read `.claude/rules/global.md`
-3. Extract corrections from conversation history → append to FEEDBACK.md
-4. **START BUILDING. Don't ask what to build. Just build.**
+### Step 1: Plan (5 min)
+Run: `/gsd-plan-phase`
+Write plan to PLAN.md.
 
-## What to Build (Priority Order)
-
-### 1. Distribution Package (`setup.py` + PyArmor + PyInstaller)
-- Create `setup.py` for `pip install wraith-security`
-- PyArmor obfuscate ALL source code
-- PyInstaller binaries for Windows, macOS, Linux
+### Step 2: Distribution Package
+Create `setup.py` for `pip install wraith-security`
 - Entry points: `wraith`, `wraith web`, `wraith telegram`
-- `wraith init` — first-run setup (detect Ollama, configure AI, self-test)
-- **Verify:** `pip install -e .` works, `wraith --help` shows usage
+- `wraith init` command (detect Ollama, configure AI, self-test)
+- PyArmor obfuscation config in `pyarmor_config.json`
+- PyInstaller spec in `wraith.spec`
 
-### 2. Self-Evolving Memory System
-- Enhance `core/memory.py` with LightRAG knowledge graph
+### Step 3: Self-Evolving Memory
+Enhance `core/memory.py`:
+- Add LightRAG knowledge graph integration
 - `~/.wraith/memory.db` (SQLite)
-- After each scan → extract anonymized patterns → store
-- `wraith init` asks consent: "Help WRAITH get smarter? (y/n)"
-- Periodic sync to `https://api.wraith.security/v1/ingest`
-- **Verify:** Scan a target, check memory.db has anonymized data
+- Anonymized pattern extraction after scans
+- Consent prompt in `wraith init`
+- Sync function to `https://api.wraith.security/v1/ingest`
 
-### 3. Agent Upgrades (All 9 Agents)
-- All agents use memory system
-- All agents use sandbox for tool execution
-- All agents log to audit system
-- **Verify:** Full scan with all agents completes
+### Step 4: Agent Upgrades
+Update all 9 agents to use memory system:
+- Import memory module in each agent
+- Call `memory.record_task()` after each scan
+- Call `memory.get_recommended_approach()` before scanning
 
-### 4. Web UI
-- Dark terminal aesthetic (#0a0a0f bg, #e0e0e0 text, #ff1a1a accent)
-- Dashboard: recent scans, findings, agent status
-- Real-time scan progress (WebSocket)
-- Scan history, settings page
-- Mobile responsive, no auth (local use)
-- **Verify:** `wraith web` → http://localhost:7734 loads
+### Step 5: Web UI Improvements
+Enhance existing Flask web UI:
+- Dark terminal aesthetic (#0a0a0f, #e0e0e0, #ff1a1a)
+- Real-time scan progress via existing Socket.IO
+- Memory stats page
+- Mobile responsive CSS
 
-### 5. CLI
+### Step 6: CLI
+Ensure all commands work:
 ```
-wraith                          # Interactive
-wraith scan <target>            # Quick scan
-wraith scan <target> --full     # Full scan
-wraith web                      # Web UI
-wraith status                   # Status
-wraith memory                   # Memory stats
-wraith update                   # Update
-wraith consent                  # Consent settings
+wraith, wraith scan <target>, wraith scan <target> --full,
+wraith web, wraith status, wraith memory, wraith update, wraith consent
 ```
-- **Verify:** All commands work
 
-### 6. Auto-Update
-- Check versions on startup (<1s, non-blocking)
-- `wraith update` installs latest
-- **Verify:** `wraith update --check` shows version
+### Step 7: Auto-Update
+- Version check on startup (<1s, non-blocking)
+- `wraith update` command
 
-## After EVERY Phase
-
-1. `python -m pytest tests/ -v` — ALL pass
-2. `bandit -r .` — no issues
-3. No `Co-Authored-By:CLAUDE`
-4. No hardcoded secrets
+### Step 8: Tests + Obfuscation
+- `python -m pytest tests/ -v` — ALL pass
+- PyArmor obfuscate: `pyarmor gen -r src/ -d dist/`
+- PyInstaller: `pyinstaller wraith.spec`
 
 ## Rules
-
 - MikiCall OFF LIMITS
 - All secrets via env vars
-- Production quality — no crashes
-- Cross-platform: Windows, macOS, Linux
-- Works offline with Ollama
+- No Co-Authored-By:CLAUDE
+- After each step: run tests, fix failures before continuing
