@@ -5,6 +5,25 @@
 
 ---
 
+## ⚠️ CRITICAL: How to Prompt Claude Code (LEARNED FROM FAILURES)
+
+### What DOESN'T Work
+- ❌ Long CLAUDE.md files (100+ lines) — Claude ignores half of them
+- ❌ "Understand the project, use GSD workflow" — Claude asks questions instead of building
+- ❌ "Here's what exists, here's what's missing" — Claude does assessments instead of building
+- ❌ "What do you want to tackle?" — Claude asks instead of deciding
+- ❌ Long lists of corrections/preferences at the top — Claude gets lost in reading
+
+### What DOES Work
+- ✅ **"ON STARTUP — DO THIS IN ORDER. NO QUESTIONS. NO ASSESSMENTS. JUST BUILD."**
+- ✅ **Numbered steps** — Step 1, Step 2, Step 3 — exact files to create
+- ✅ **Short CLAUDE.md** — Under 50 lines. Just the build steps.
+- ✅ **"Don't ask what to build. BUILD."** — Explicit directive
+- ✅ **Verification after each step** — "Run pytest, fix failures, continue"
+- ✅ Put corrections in FEEDBACK.md, keep CLAUDE.md as pure build instructions
+
+---
+
 ## Project Overview
 
 WRAITH (renamed from CIPHER) is the world's first autonomous AI cyber operations platform. Two repositories:
