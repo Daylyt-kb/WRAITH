@@ -1,5 +1,15 @@
 # WRAITH Public — Claude Code Build Instructions
 
+## ⚠️ FIRST: Session Startup (DO THIS BEFORE ANYTHING ELSE)
+
+1. Read `FEEDBACK.md` — ALL corrections, preferences, lessons learned from Daylyt
+2. Read `AGENTS.md` — Multi-agent workflow instructions
+3. Read `.claude/rules/global.md` — Global rules
+4. Read `.claude/rules/api.md` — API route rules (if working on backend)
+5. **Extract every correction, preference, and lesson from the conversation history**
+6. **Format it for FEEDBACK.md** — Add anything new you learn in this session
+7. **Reload FEEDBACK.md in future sessions** — It's your persistent memory
+
 ## Project
 
 WRAITH is an open source AI security swarm. 9 AI agents that scan infrastructure. Self-hosted, bring your own AI. Distributed as compiled/obfuscated `pip install wraith-security`.
