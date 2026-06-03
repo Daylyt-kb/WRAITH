@@ -1,57 +1,47 @@
-# WRAITH Public — BUILD THIS NOW
+# WRAITH Public — BUILD THIS
 
-## ON STARTUP — DO THIS IN ORDER. NO QUESTIONS. NO ASSESSMENTS. JUST BUILD.
+## ON STARTUP: Do these steps in order. No questions. No assessments.
 
-### Step 1: Plan (5 min)
-Run: `/gsd-plan-phase`
-Write plan to PLAN.md.
-
-### Step 2: Distribution Package
-Create `setup.py` for `pip install wraith-security`
+### Step 1: Distribution Package
+Create `setup.py` — `pip install wraith-security`
 - Entry points: `wraith`, `wraith web`, `wraith telegram`
-- `wraith init` command (detect Ollama, configure AI, self-test)
-- PyArmor obfuscation config in `pyarmor_config.json`
-- PyInstaller spec in `wraith.spec`
+- `wraith init` command (detect Ollama, configure, self-test)
+- PyArmor config: `pyarmor_config.json`
+- PyInstaller spec: `wraith.spec`
+- **Verify:** `pip install -e .` works
 
-### Step 3: Self-Evolving Memory
+### Step 2: Memory System
 Enhance `core/memory.py`:
-- Add LightRAG knowledge graph integration
-- `~/.wraith/memory.db` (SQLite)
-- Anonymized pattern extraction after scans
+- LightRAG knowledge graph
+- `~/.wraith/memory.db`
+- Anonymized pattern extraction
 - Consent prompt in `wraith init`
-- Sync function to `https://api.wraith.security/v1/ingest`
+- Sync to `https://api.wraith.security/v1/ingest`
+- **Verify:** Scan target → check memory.db
 
-### Step 4: Agent Upgrades
-Update all 9 agents to use memory system:
-- Import memory module in each agent
-- Call `memory.record_task()` after each scan
-- Call `memory.get_recommended_approach()` before scanning
+### Step 3: Upgrade All 9 Agents
+Each agent imports memory, calls `record_task()` after scan, `get_recommended_approach()` before scan
 
-### Step 5: Web UI Improvements
-Enhance existing Flask web UI:
-- Dark terminal aesthetic (#0a0a0f, #e0e0e0, #ff1a1a)
-- Real-time scan progress via existing Socket.IO
+### Step 4: Web UI
+Enhance existing Flask UI:
+- Dark terminal aesthetic
 - Memory stats page
-- Mobile responsive CSS
+- Mobile responsive
+- **Verify:** `wraith web` loads
 
-### Step 6: CLI
-Ensure all commands work:
-```
-wraith, wraith scan <target>, wraith scan <target> --full,
-wraith web, wraith status, wraith memory, wraith update, wraith consent
-```
+### Step 5: CLI
+All commands work: `wraith`, `wraith scan`, `wraith web`, `wraith status`, `wraith memory`, `wraith update`
 
-### Step 7: Auto-Update
-- Version check on startup (<1s, non-blocking)
-- `wraith update` command
+### Step 6: Auto-Update
+Version check on startup, `wraith update` command
 
-### Step 8: Tests + Obfuscation
-- `python -m pytest tests/ -v` — ALL pass
-- PyArmor obfuscate: `pyarmor gen -r src/ -d dist/`
-- PyInstaller: `pyinstaller wraith.spec`
+### Step 7: Tests + Ship
+- `pytest tests/ -v` — ALL pass
+- PyArmor obfuscate
+- PyInstaller binary
 
 ## Rules
 - MikiCall OFF LIMITS
-- All secrets via env vars
+- Secrets via env vars only
 - No Co-Authored-By:CLAUDE
-- After each step: run tests, fix failures before continuing
+- Fix test failures before moving to next step
