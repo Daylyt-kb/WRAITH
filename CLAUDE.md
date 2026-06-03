@@ -1,74 +1,65 @@
-# WRAITH Public — Build Instructions
+# WRAITH Public — Claude Code Build Instructions
 
 ## Project
 
-WRAITH is an open source AI security swarm. 9 AI agents that scan, analyze, and secure infrastructure. Self-hosted, bring your own AI.
+WRAITH is an open source AI security swarm. 9 AI agents that scan, analyze, and secure infrastructure. Self-hosted, bring your own AI. Distributed as compiled/obfuscated package.
+
+## Workflow: Use GSD
+
+1. `/gsd-plan-phase` — Plan each phase
+2. `/gsd-execute-phase` — Build it
+3. `/gsd-review-phase` — Adversarial review
+4. `/gsd-verify-work` — Tests pass
 
 ## What to Build
 
 ### Phase 1: Distribution Package
-- Create `setup.py` for `pip install wraith-security`
-- PyArmor obfuscate ALL source before distribution
-- PyInstaller binaries for Windows, macOS, Linux
-- Entry points: `wraith` (CLI), `wraith web` (Web UI), `wraith telegram` (bot)
-- `wraith init` — first-run setup: detect Ollama, configure AI, self-test
+- `setup.py` for `pip install wraith-security`
+- PyArmor obfuscate ALL source
+- PyInstaller binaries (Windows, macOS, Linux)
+- Entry points: `wraith`, `wraith web`, `wraith telegram`
+- `wraith init` — first-run setup
 
 ### Phase 2: Self-Evolving Memory
-- Build `~/.wraith/memory.db` (SQLite)
-- After each scan, store anonymized patterns: target type, tools used, effectiveness, techniques
-- `wraith init` asks: "Help WRAITH get smarter? Share anonymized patterns (y/n)"
-- If yes: periodic sync to WRAITH central API (https://api.wraith.security/v1/ingest)
-- Export format: `{tool_effectiveness, vulnerability_patterns, common_techniques}` — NO user IDs, NO target specifics
+- `~/.wraith/memory.db` (SQLite)
+- Anonymized pattern collection after scans
+- Sync to `https://api.wraith.security/v1/ingest`
+- NO user IDs, NO target specifics in exported data
 
 ### Phase 3: Agent Upgrades
-- All 9 agents must use the memory system
-- All agents use sandbox for tool execution
+- All 9 agents use memory system
+- All agents use sandbox for tools
 - All agents log to audit system
-- Agents communicate via message bus
 
 ### Phase 4: Web UI
 - Dark terminal aesthetic
-- Dashboard: recent scans, findings, agent status
-- Real-time scan progress (WebSocket)
-- Scan history with filters
-- Settings: AI provider config, memory preferences
-- Mobile responsive
-- No auth (local use only)
+- Dashboard, scan progress (WebSocket), history, settings
+- Mobile responsive, no auth (local)
 
 ### Phase 5: CLI
-```
-wraith                          # Interactive mode
-wraith scan <target>            # Quick scan
-wraith scan <target> --full     # Full scan
-wraith web                      # Start web UI
-wraith status                   # System status
-wraith memory                   # Memory stats
-wraith update                   # Update
-wraith consent                  # Manage consent
-```
+`wraith`, `wraith scan <target>`, `wraith web`, `wraith status`, `wraith memory`, `wraith update`, `wraith consent`
 
 ### Phase 6: Auto-Update
-- Check for new versions on startup (non-blocking)
-- `wraith update` downloads and installs latest
-- Works with pip and binary distributions
-
-## Rules
-
-- Read ALL existing code before changing anything
-- Don't break existing functionality
-- Production quality — no crashes, proper error handling
-- All secrets via env vars — never hardcoded
-- No "Co-Authored-By: Claude" anywhere
-- PyArmor-compatible code (no dynamic imports that break obfuscation)
-- Cross-platform: Windows, macOS, Linux
-- Works fully offline with Ollama
-- All tests must pass (48+ existing)
+- Check versions on startup
+- `wraith update` installs latest
 
 ## Verification
 
 After each phase:
-1. Run `python -m pytest tests/ -v` — all tests pass
-2. Run `wraith init` — setup works
-3. Run `wraith scan localhost --authorized` — scan works
-4. Run `wraith web` — web UI loads at http://localhost:7734
-5. Check memory.db — anonymized data is stored correctly
+1. `python -m pytest tests/ -v` — all pass
+2. `wraith init` — works
+3. `wraith scan localhost --authorized` — works
+4. `wraith web` — loads at http://localhost:7734
+5. Memory.db stores anonymized data correctly
+
+## Rules
+
+- Read ALL existing code first
+- Don't break what works
+- Production quality
+- All secrets via env vars — never hardcoded
+- No "Co-Authored-By: Claude"
+- PyArmor-compatible code
+- Cross-platform
+- Works offline with Ollama
+- MikiCall is OFF LIMITS
