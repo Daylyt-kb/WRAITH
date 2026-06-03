@@ -1,114 +1,50 @@
-# 👻 WRAITH — Open Source AI Security Swarm
+# WRAITH — Public Repository (Open Source)
 
-> **The world's first autonomous AI security platform. Self-hosted. Bring your own AI.**
+## What This Repo Is
 
-## What Is WRAITH?
+This is the **open source core** of WRAITH. It's a self-hosted AI security platform that people install on their own machine. They bring their own AI model (Ollama for free, or any API key).
 
-WRAITH is a swarm of **9 AI agents** that work together to scan, analyze, and secure your infrastructure. Give it a mission in plain English — it plans, provisions tools from Kali Linux, executes, and learns from every scan.
+**This repo is compiled/obfuscated before distribution.** Users install it like Claude Code — they use it but can't see the backend source code.
 
-Think of it as a **$200K security team that runs on your laptop for free**.  
+## What's Included
 
-And it gets smarter every single day — for every user, forever.
+- 9 AI security agents (GHOST, SPECTER, SCANNER, BREACH, FORGE, MIRROR, NEURON, LEDGER, COMMANDER)
+- Universal AI provider layer (12+ LLMs)
+- Docker sandbox system (Kali Linux containers)
+- 20+ Kali tool wrappers
+- Plugin-based agent architecture
+- Self-evolving memory system
+- Web UI (Flask + Socket.IO)
+- CLI interface
+- Telegram bot
+- Scope enforcement + consent system
+- 48+ tests
 
-## What It Does
+## What's NOT Here (Private Repo Only)
 
-- **Scans your website, app, network, or AI agent** for vulnerabilities
-- **Uses real Kali Linux tools** — nmap, sqlmap, metasploit, nikto, gobuster, and 15+ more
-- **Runs in isolated Docker sandboxes** — safe, clean, no trace on your machine
-- **Learns from every scan** — its memory grows, its recommendations improve, its detection gets sharper
-- **Works with any AI model** — Ollama (free, offline), OpenRouter, GPT-4, Claude, Gemini, Groq, and 8+ more
-- **Grows with the community** — anonymized patterns from all users make WRAITH smarter for everyone
+- PHANTOM, ORCHESTRATOR, SENTINEL agents
+- Supabase auth + OAuth
+- PayStack payments
+- Code protection / license enforcement
+- SENTINEL npm/pip agent package
+- Web dashboard (that's in the private repo)
 
-## Quick Start
+## Distribution
 
-```bash
-# 1. Clone
-git clone https://github.com/Daylyt-kb/WRAITH.git
-cd WRAITH
+This repo is distributed as a compiled/obfuscated package:
+- `pip install wraith-security` (PyPI)
+- Or download compiled binary from releases
+- Users run `wraith` command — works like Claude Code
+- Source code is NOT visible to end users
 
-# 2. Install
-pip install -r requirements.txt
+## Self-Evolving Memory (Open Source Contribution)
 
-# 3. (Optional) Set up AI — or use Ollama for free
-cp .env.example .env
-# Edit .env if you have an API key. Or just use Ollama — WRAITH detects it automatically.
-
-# 4. Test
-python -m pytest tests/ -v
-
-# 5. Run
-python web_ui.py          # Web UI at http://localhost:7734
-# or
-python cipher.py --interactive  # CLI mode
-```
-
-### With Ollama (Free, No API Key)
-
-```bash
-ollama pull llama3.1
-python web_ui.py
-# Done. WRAITH uses your local AI.
-```
-
-## Usage Examples
-
-```bash
-# Web UI
-python web_ui.py
-
-# CLI — plain English
-python cipher.py --interactive
-> scan mywebsite.com
-> full test example.com
-
-# CLI — direct
-python cipher.py -t example.com -m recon --authorized
-python cipher.py -t example.com -m full --authorized
-
-# Telegram bot
-python telegram_bot.py
-```
-
-## The Agents
-
-| Agent | Purpose |
-|-------|---------|
-| GHOST | Network recon — maps every open door |
-| SPECTER | OSINT — hunts what the internet already knows |
-| SCANNER | Vulnerability detection — finds the weaknesses |
-| BREACH | Controlled exploitation — proves it's real |
-| FORGE | Script generation — writes custom tools on the fly |
-| MIRROR | AI red team — tests AI agents for prompt injection & more |
-| NEURON | Self-learning — ingests CVEs, ATT&CK, ExploitDB 24/7 |
-| LEDGER | Reports — translates findings to plain English |
-| SEARCHER | Web search — security intelligence gathering |
-| COMMANDER | The brain — understands your English, orchestrates everything |
-
-## Requirements
-
-- Python 3.11+
-- Docker (for sandboxed tool execution — recommended but optional)
-- An AI model: Ollama (free, offline) OR any API key (OpenRouter, Groq, Gemini, etc.)
+Even the open source version contributes to WRAITH's intelligence:
+- Anonymized scan patterns are collected (with user consent)
+- These patterns feed into the private repo's knowledge base
+- The paid version gets smarter because of free users
+- This is the flywheel: free users → more data → smarter WRAITH → better product
 
 ## Legal
 
-**Authorized security testing only.**  
-
-WRAITH enforces authorization at the architecture level. Before any scan, you must confirm:
-- You OWN the system, OR
-- You have WRITTEN PERMISSION to test it
-
-Unauthorized scanning is illegal under the CFAA (USA), Computer Misuse Act (UK), and equivalent laws worldwide.
-
-## Contributing
-
-Fork → Branch → Test → PR. All tests must pass. Write tests for new features.
-
-## License
-
-MIT — free forever. Use it, modify it, share it. Make it yours.
-
----
-
-*Built by [Kebron Isaias](https://github.com/Daylyt-kb) · Open Source · Legal by Design*
-*WRAITH — The ghost in your machine that keeps you safe.*
+MIT License. Authorized security testing only.
