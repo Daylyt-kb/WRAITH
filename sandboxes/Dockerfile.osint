@@ -1,0 +1,20 @@
+# CIPHER v2.0 — OSINT Sandbox
+# Open source intelligence gathering tools
+FROM cipher-kali-base:latest
+
+LABEL description="CIPHER OSINT Sandbox — Open source intelligence"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    theharvester \
+    recon-ng \
+    maltego \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python-based tools
+RUN pip3 install --break-system-packages \
+    sherlock-project \
+    spiderfoot \
+    2>/dev/null || pip3 install sherlock-project spiderfoot
+
+WORKDIR /cipher
+CMD ["bash"]

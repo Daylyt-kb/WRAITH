@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}WRAITH — AI Security Swarm{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">WRAITH</div>
+  <div class="nav-tag">AI Security Swarm · v2.0</div>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    <span id="status-text">Ready</span>
+    <span id="ws-status" class="ws-status ws-disconnected">● Connecting...</span>
+  </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+# CIPHER v2.0 — Web Hacking Sandbox
+# Web application security testing tools
+FROM cipher-kali-base:latest
+
+LABEL description="CIPHER Web Sandbox — Web application security testing"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nikto \
+    gobuster \
+    wpscan \
+    xsser \
+    burpsuite \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Go-based tools
+RUN apt-get update && apt-get install -y --no-install-recommends golang-go && \
+    go install github.com/ffuf/ffuf/v2@latest && \
+    rm -rf /var/lib/apt/lists/* /root/go/pkg && \
+    cp /root/go/bin/* /usr/local/bin/ 2>/dev/null || true
+
+# Install sqlmap from pip
+RUN pip3 install sqlmap --break-system-packages 2>/dev/null || pip3 install sqlmap
+
+WORKDIR /cipher
+CMD ["bash"]

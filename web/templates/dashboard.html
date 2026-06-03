@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="section-label">Mission Control</div>
+
+    <div class="form-group">
+      <label>Target (domain or IP you own)</label>
+      <input type="text" id="target" placeholder="mysite.com or 192.168.1.1">
+    </div>
+
+    <div class="form-group">
+      <label>Scan Mode</label>
+      <select id="mode">
+        <option value="recon">Recon — surface mapping</option>
+        <option value="osint">OSINT — open source intel</option>
+        <option value="scan">Scan — vulnerability detection</option>
+        <option value="full">Full Swarm — everything</option>
+        <option value="breach">Breach — full exploitation</option>
+        <option value="ai-audit">AI Audit — MIRROR agent</option>
+      </select>
+    </div>
+
+    <div class="consent-box">
+      <label>
+        <input type="checkbox" id="authorized">
+        I confirm I own this target or have written authorization to test it.
+        Unauthorized scanning is illegal.
+      </label>
+    </div>
+
+    <button class="btn btn-primary" id="launch-btn" onclick="launchMission()">⚡ Deploy Swarm</button>
+    <button class="btn btn-secondary" onclick="clearTerminal()">Clear Terminal</button>
+
+    <div style="margin-top:20px;margin-bottom:10px;">
+      <div class="section-label">Agent Status</div>
+      <div class="agents-grid" id="agents-grid">
+        <div class="agent-chip" id="agent-ghost"><div class="agent-name">GHOST</div><div class="agent-role">Recon</div></div>
+        <div class="agent-chip" id="agent-specter"><div class="agent-name">SPECTER</div><div class="agent-role">OSINT</div></div>
+        <div class="agent-chip" id="agent-scanner"><div class="agent-name">SCANNER</div><div class="agent-role">Vuln Scan</div></div>
+        <div class="agent-chip" id="agent-forge"><div class="agent-name">FORGE</div><div class="agent-role">Scripts</div></div>
+        <div class="agent-chip" id="agent-mirror"><div class="agent-name">MIRROR</div><div class="agent-role">AI-vs-AI</div></div>
+        <div class="agent-chip" id="agent-ledger"><div class="agent-name">LEDGER</div><div class="agent-role">Reports</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="section-label">Quick Commands</div>
+      <button class="btn btn-secondary" style="margin-bottom:4px" onclick="quickSend('check security headers')">Check headers</button>
+      <button class="btn btn-secondary" style="margin-bottom:4px" onclick="quickSend('enumerate subdomains')">Find subdomains</button>
+      <button class="btn btn-secondary" style="margin-bottom:4px" onclick="quickSend('forge a port scan script')">Generate script</button>
+      <button class="btn btn-secondary" onclick="quickSend('fetch latest CVEs')">Latest CVEs</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('terminal')">Terminal</div>
+      <div class="tab" onclick="showTab('findings')">Findings <span id="findings-count"></span></div>
+      <div class="tab" onclick="showTab('report')">Report</div>
+      <div class="tab" onclick="showTab('commander')">Commander</div>
+      <div class="tab" onclick="showTab('settings')">⚙ Settings</div>
+    </div>
+
+    <div class="tab-panel active" id="tab-terminal">
+      <div class="terminal" id="terminal">
+        <div class="wraith-banner">  ██████╗██╗██████╗ ██╗  ██╗███████╗██████╗
+ ██╔════╝██║██╔══██╗██║  ██║██╔════╝██╔══██╗
+ ██║     ██║██████╔╝███████║█████╗  ██████╔╝
+ ██║     ██║██╔═══╝ ██╔══██║██╔══╝  ██╔══██╗
+ ╚██████╗██║██║     ██║  ██║███████╗██║  ██║
+  ╚═════╝╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝</div>
+        <div class="welcome-msg">The World's First Civilian AI Security Swarm. Legal by design.<br>Enter a target, confirm authorization, and deploy the swarm.</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-findings">
+      <div class="results" id="findings-list" style="max-height:100%">
+        <div style="color:var(--muted);font-size:12px;padding:20px;">Run a scan to see findings here.</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-report">
+      <div class="report-area" id="report-content">No report generated yet. Run a full scan first.</div>
+    </div>
+
+    <div class="tab-panel" id="tab-commander" style="display:none;flex-direction:column">
+      <div class="terminal" id="commander-log" style="flex:1">
+        <div class="terminal-line muted">Commander shell — talk in plain English.</div>
+        <div class="terminal-line muted">Examples: "scan mysite.com" / "osint target.com" / "forge a script to check SSL"</div><br>
+      </div>
+      <div class="chat-area">
+        <input class="chat-input" id="chat-input" placeholder="Tell Commander what to do..." onkeydown="if(event.key==='Enter')sendToCommander()">
+        <button class="chat-send" onclick="sendToCommander()">Send</button>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-settings" style="display:none;flex-direction:column;overflow-y:auto">
+      <div style="padding:20px;border-bottom:1px solid var(--border)">
+        <div style="font-size:15px;font-weight:700;margin-bottom:5px">AI Provider Settings</div>
+        <div style="font-size:12px;color:var(--muted)">Paste any API key — WRAITH detects the provider automatically. Switch anytime, no restart needed.</div>
+      </div>
+      <div style="padding:20px">
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <input type="password" id="raw-key" placeholder="Paste API key (any provider)..." style="flex:1;background:#1a1a1a;border:1px solid #333;color:#e0e0e0;padding:9px 12px;border-radius:6px;font-family:monospace;font-size:12px">
+          <button onclick="setRawKey()" style="padding:9px 16px;background:#e24b4a;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer">Set Key</button>
+        </div>
+        <div id="raw-status" style="font-size:12px;font-family:monospace;color:#5cb85c;margin-bottom:20px"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px" id="provider-cards"></div>
+        <div style="margin-top:20px;font-size:11px;color:#666;line-height:1.7">
+          <strong style="color:#aaa">Free providers:</strong><br>
+          • Groq — <a href="https://console.groq.com" target="_blank" style="color:#5a9adc">console.groq.com</a> (Llama 3.3 70B, fast)<br>
+          • Gemini — <a href="https://aistudio.google.com" target="_blank" style="color:#5a9adc">aistudio.google.com</a><br>
+          • OpenRouter — <a href="https://openrouter.ai/keys" target="_blank" style="color:#5a9adc">openrouter.ai</a> (access 100+ models)<br>
+          <strong style="color:#aaa">Paid providers:</strong><br>
+          • Anthropic — <a href="https://console.anthropic.com" target="_blank" style="color:#5a9adc">console.anthropic.com</a><br>
+          • OpenAI — <a href="https://platform.openai.com" target="_blank" style="color:#5a9adc">platform.openai.com</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

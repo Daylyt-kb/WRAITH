@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}WRAITH — Settings{% endblock %}
+{% block content %}
+<div style="padding:24px;max-width:900px;margin:0 auto">
+  <div style="font-size:24px;font-weight:800;margin-bottom:8px">Settings</div>
+
+  <div style="margin-bottom:32px">
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px">AI Provider</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="password" id="raw-key" placeholder="Paste any API key..." style="flex:1;background:#1a1a1a;border:1px solid #333;color:#e0e0e0;padding:9px 12px;border-radius:6px;font-family:monospace;font-size:12px">
+      <button onclick="setRawKey()" style="padding:9px 16px;background:#e24b4a;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer">Set Key</button>
+    </div>
+    <div id="raw-status" style="font-size:12px;font-family:monospace;color:#5cb85c;margin-bottom:20px"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px" id="provider-cards"></div>
+  </div>
+
+  <div style="margin-bottom:32px">
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px">License</div>
+    <div id="license-status" style="margin-bottom:12px"></div>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="license-key" placeholder="WRAITH-PRO-XXXX-XXXX" style="flex:1;background:#1a1a1a;border:1px solid #333;color:#e0e0e0;padding:9px 12px;border-radius:6px;font-family:monospace;font-size:12px">
+      <button onclick="activateLicense()" style="padding:9px 16px;background:#e24b4a;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer">Activate</button>
+    </div>
+    <div id="license-msg" style="font-size:12px;font-family:monospace;margin-top:8px"></div>
+  </div>
+</div>
+{% block extra_js %}
+<script>
+async function loadLicenseStatus(){
+  const r = await fetch('/api/license/status');
+  const d = await r.json();
+  const el = document.getElementById('license-status');
+  if(el) el.innerHTML = `Status: <strong style="color:${d.activated?'#5cb85c':'#e24b4a'}">${d.activated?d.type.toUpperCase()+' ✓':'OPEN (Free)'}</strong>`;
+}
+async function activateLicense(){
+  const key = document.getElementById('license-key').value.trim();
+  if(!key){ document.getElementById('license-msg').textContent='Enter a license key'; return; }
+  const r = await fetch('/api/license/activate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key})});
+  const d = await r.json();
+  const el = document.getElementById('license-msg');
+  if(d.success){ el.style.color='#5cb85c'; el.textContent='✓ '+d.message; loadLicenseStatus(); }
+  else { el.style.color='#e24b4a'; el.textContent='✗ '+(d.error||'Activation failed'); }
+}
+loadLicenseStatus();
+</script>
+{% endblock %}
+{% endblock %}

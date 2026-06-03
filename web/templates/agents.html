@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}WRAITH — Agents{% endblock %}
+{% block content %}
+<div style="padding:24px;max-width:900px;margin:0 auto">
+  <div style="font-size:24px;font-weight:800;margin-bottom:8px">Agent Registry</div>
+  <div style="color:var(--muted);font-size:13px;margin-bottom:24px">{{ agents|length }} agents discovered. Pro agents require license activation.</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+  {% for agent in agents %}
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px{% if agent.pro_only %};border-left:3px solid var(--amber){% endif %}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:14px;font-weight:700;color:{% if agent.pro_only %}var(--amber){% else %}var(--text){% endif %}">{{ agent.name }}</span>
+        {% if agent.pro_only %}
+          <span class="ws-status" style="font-size:10px;background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">PRO</span>
+        {% endif %}
+        {% if not agent.available %}
+          <span class="ws-status" style="font-size:10px;background:#2a0a0a;color:var(--red);border:1px solid #5a2d2d">🔒 Locked</span>
+        {% endif %}
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px">{{ agent.description }}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:10px;color:#555">{{ agent.category }} · v{{ agent.version }}</div>
+        {% if agent.tools %}
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          {% for tool in agent.tools[:4] %}
+          <span style="font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:4px;background:var(--surface2);color:#888;border:1px solid var(--border)">{{ tool }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

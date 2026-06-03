@@ -1,0 +1,164 @@
+# WRAITH v2.0 — Configuration
+# All secrets use ${ENV_VAR} syntax — substituted at load time
+# No hardcoded keys. Ever.
+
+version: "2.0.0"
+project: WRAITH
+tagline: "The World's First Civilian AI Security Swarm — GOD TIER"
+
+ai:
+  default_provider: "${WRAITH_AI_PROVIDER:-ollama}"
+  default_model: "${WRAITH_AI_MODEL:-llama3.1:70b}"
+  failover:
+    enabled: true
+    order:
+      - ollama
+      - groq
+      - openrouter
+      - anthropic
+      - openai
+  providers:
+    anthropic:
+      api_key: "${ANTHROPIC_API_KEY}"
+      model: "claude-sonnet-4-20250514"
+      base_url: "https://api.anthropic.com"
+    openai:
+      api_key: "${OPENAI_API_KEY}"
+      model: "gpt-4o"
+      base_url: "https://api.openai.com/v1"
+    gemini:
+      api_key: "${GEMINI_API_KEY}"
+      model: "gemini-1.5-pro"
+      base_url: "https://generativelanguage.googleapis.com"
+    groq:
+      api_key: "${GROQ_API_KEY}"
+      model: "llama-3.3-70b-versatile"
+      base_url: "https://api.groq.com/openai/v1"
+    mistral:
+      api_key: "${MISTRAL_API_KEY}"
+      model: "mistral-large-latest"
+      base_url: "https://api.mistral.ai/v1"
+    ollama:
+      api_key: "ollama-local"
+      model: "${OLLAMA_MODEL:-llama3.1:70b}"
+      base_url: "${OLLAMA_HOST:-http://localhost:11434}"
+    lmstudio:
+      api_key: "lmstudio-local"
+      model: "local-model"
+      base_url: "http://localhost:1234/v1"
+    openrouter:
+      api_key: "${OPENROUTER_API_KEY}"
+      model: "${OPENROUTER_MODEL:-openrouter/auto}"
+      base_url: "https://openrouter.ai/api/v1"
+    custom:
+      api_key: "${CUSTOM_API_KEY}"
+      model: "custom-model"
+      base_url: "${CUSTOM_API_URL}"
+
+sandbox:
+  enabled: true
+  engine: docker
+  network_isolation: true
+  auto_cleanup: true
+  max_containers: 5
+  timeout: 300
+  profiles:
+    recon:
+      image: "wraith-recon:latest"
+      tools:
+        - nmap
+        - masscan
+        - amass
+        - subfinder
+        - httpx
+        - dnsenum
+        - fierce
+    web:
+      image: "wraith-web:latest"
+      tools:
+        - sqlmap
+        - nikto
+        - gobuster
+        - ffuf
+        - wpscan
+        - xsser
+    exploit:
+      image: "wraith-exploit:latest"
+      tools:
+        - msfconsole
+        - searchsploit
+        - sploitctl
+    osint:
+      image: "wraith-osint:latest"
+      tools:
+        - theHarvester
+        - sherlock
+        - recon-ng
+        - spiderfoot
+    wireless:
+      image: "wraith-wireless:latest"
+      tools:
+        - aircrack-ng
+        - kismet
+        - wifite
+      requires_vm: true
+    custom:
+      image: "kalilinux/kali-rolling:latest"
+      tools: []
+
+agents:
+  default_model_per_agent:
+    ghost: groq
+    specter: ollama
+    scanner: groq
+    breach: anthropic
+    forge: anthropic
+    mirror: openai
+    neuron: ollama
+    ledger: ollama
+    commander: anthropic
+
+web:
+  host: "0.0.0.0"
+  port: 7734
+  debug: false
+  secret_key: "${WRAITH_SECRET_KEY:-wraith-v2-god-tier}"
+  websocket_enabled: true
+
+license:
+  enabled: true
+  type: open_core
+  pro_features:
+    - phantom
+    - orchestrator
+    - sentinel
+    - metasploit
+    - pdf_reports
+    - compliance_mapping
+    - batch_scanning
+    - vm_sandboxes
+    - dark_web_monitoring
+    - advanced_ai
+    - api_access
+    - priority_support
+
+logging:
+  level: INFO
+  format: json
+  file: wraith_output/wraith.log
+  max_size_mb: 50
+  backup_count: 5
+
+legal:
+  require_authorization: true
+  consent_dir: wraith_output/consent
+  audit_log: wraith_output/audit.log
+  rate_limit_per_minute: 30
+  blocked_targets:
+    - localhost
+    - 127.0.0.1
+    - 0.0.0.0
+    - "::1"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"

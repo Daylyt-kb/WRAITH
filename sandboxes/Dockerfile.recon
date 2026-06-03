@@ -1,0 +1,27 @@
+# CIPHER v2.0 — Recon Sandbox
+# Network reconnaissance and enumeration tools
+FROM cipher-kali-base:latest
+
+LABEL description="CIPHER Recon Sandbox — Network discovery and enumeration"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nmap \
+    masscan \
+    dnsenum \
+    fierce \
+    whois \
+    traceroute \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Go-based tools
+RUN apt-get update && apt-get install -y --no-install-recommends golang-go && \
+    go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
+    go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
+    go install -v github.com/owasp-amass/amass/v4/...@master && \
+    rm -rf /var/lib/apt/lists/* /root/go/pkg
+
+# Copy Go binaries to PATH
+RUN cp /root/go/bin/* /usr/local/bin/ 2>/dev/null || true
+
+WORKDIR /cipher
+CMD ["bash"]

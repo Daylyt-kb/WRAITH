@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Env
+.env
+.env.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Output (never commit scan results)
+wraith_output/
+wraith_output/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# API Keys — NEVER commit
+*.key
+secrets.json

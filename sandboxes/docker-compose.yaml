@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Base Kali image builder
+  kali-base:
+    build:
+      context: ..
+      dockerfile: sandboxes/Dockerfile.kali-base
+    image: wraith-kali-base:latest
+    entrypoint: ["echo", "Base image built"]
+
+  # Recon sandbox
+  recon:
+    build:
+      context: ..
+      dockerfile: sandboxes/Dockerfile.recon
+    image: wraith-recon:latest
+    networks:
+      - wraith-isolated
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+  # Web hacking sandbox
+  web:
+    build:
+      context: ..
+      dockerfile: sandboxes/Dockerfile.web
+    image: wraith-web:latest
+    networks:
+      - wraith-isolated
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+  # Exploitation sandbox
+  exploit:
+    build:
+      context: ..
+      dockerfile: sandboxes/Dockerfile.exploit
+    image: wraith-exploit:latest
+    networks:
+      - wraith-isolated
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+
+  # OSINT sandbox
+  osint:
+    build:
+      context: ..
+      dockerfile: sandboxes/Dockerfile.osint
+    image: wraith-osint:latest
+    networks:
+      - wraith-isolated
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+networks:
+  wraith-isolated:
+    driver: bridge
+    internal: true  # No external access by default

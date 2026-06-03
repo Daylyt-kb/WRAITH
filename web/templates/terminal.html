@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}WRAITH — Terminal{% endblock %}
+{% block content %}
+<div style="display:flex;flex-direction:column;height:calc(100vh - 49px)">
+  <div class="terminal" id="terminal" style="flex:1">
+    <div class="wraith-banner">  ██████╗██╗██████╗ ██╗  ██╗███████╗██████╗
+ ██╔════╝██║██╔══██╗██║  ██║██╔════╝██╔══██╗
+ ██║     ██║██████╔╝███████║█████╗  ██████╔╝
+ ██║     ██║██╔═══╝ ██╔══██║██╔══╝  ██╔══██╗
+ ╚██████╗██║██║     ██║  ██║███████╗██║  ██║
+  ╚═════╝╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝</div>
+    <div class="welcome-msg">WRAITH Terminal v2.0 — Real-time WebSocket connection.</div>
+  </div>
+  <div class="chat-area">
+    <input class="chat-input" id="chat-input" placeholder="Enter command or natural language..." onkeydown="if(event.key==='Enter')sendToCommander()">
+    <button class="chat-send" onclick="sendToCommander()">Send</button>
+  </div>
+</div>
+{% endblock %}
