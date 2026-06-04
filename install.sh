@@ -93,10 +93,10 @@ echo -e "${YELLOW}[4/5] Creating output directories...${NC}"
 mkdir -p wraith_output/{reports,scripts,knowledge,consent}
 echo -e "  ${GREEN}✓${NC} ./wraith_output/ created"
 
-# ── 5. Make wraith.py executable ──
+# ── 5. Make cipher.py executable ──
 echo -e "${YELLOW}[5/5] Setting up WRAITH...${NC}"
-chmod +x wraith.py
-echo -e "  ${GREEN}✓${NC} wraith.py is executable"
+chmod +x cipher.py
+echo -e "  ${GREEN}✓${NC} cipher.py is executable"
 
 # ── API Key setup ──
 echo ""
@@ -116,9 +116,9 @@ echo -e "${GREEN}${BOLD}  WRAITH is ready.${NC}"
 echo -e "${GREEN}${BOLD}═══════════════════════════════════════${NC}"
 echo ""
 echo -e "Quick start:"
-echo -e "  ${CYAN}python3 wraith.py --check-tools${NC}          # See what tools you have"
-echo -e "  ${CYAN}python3 wraith.py --interactive${NC}           # Open the commander shell"
-echo -e "  ${CYAN}python3 wraith.py -t yoursite.com -m recon --authorized${NC}"
+echo -e "  ${CYAN}python3 cipher.py --check-tools${NC}          # See what tools you have"
+echo -e "  ${CYAN}python3 cipher.py --interactive${NC}           # Open the commander shell"
+echo -e "  ${CYAN}python3 cipher.py -t yoursite.com -m recon --authorized${NC}"
 echo ""
 echo -e "${YELLOW}Remember: Only test systems you own or have permission to test.${NC}"
 echo -e "${YELLOW}WRAITH is legal-by-design. Unauthorized use is illegal.${NC}"

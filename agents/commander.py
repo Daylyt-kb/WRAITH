@@ -283,19 +283,19 @@ class Commander(WraithAgent):
         if "ghost" in agents:
             result = agents["ghost"].run(target, None)
             return f"[GHOST deployed on {target}]\n{result.get('summary', '')}"
-        return f"GHOST agent not available. Run: wraith.py --target {target} --mode recon --authorized"
+        return f"GHOST agent not available. Run: cipher.py --target {target} --mode recon --authorized"
 
     def _dispatch_osint(self, target: str, agents: dict, bus) -> str:
         if "specter" in agents:
             result = agents["specter"].run(target, None)
             return f"[SPECTER deployed on {target}]\n{result.get('summary', '')}"
-        return f"SPECTER agent not available. Run: wraith.py --target {target} --mode osint --authorized"
+        return f"SPECTER agent not available. Run: cipher.py --target {target} --mode osint --authorized"
 
     def _dispatch_scan(self, target: str, agents: dict, bus) -> str:
         if "scanner" in agents:
             result = agents["scanner"].run(target, None)
             return f"[SCANNER deployed on {target}]\n{result.get('summary', '')}"
-        return f"SCANNER agent not available. Run: wraith.py --target {target} --mode scan --authorized"
+        return f"SCANNER agent not available. Run: cipher.py --target {target} --mode scan --authorized"
 
     def _extract_target(self, text: str) -> str:
         """Extract domain or IP from text."""

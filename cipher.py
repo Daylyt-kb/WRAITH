@@ -125,11 +125,11 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  wraith.py --target example.com --mode recon
-  wraith.py --target 192.168.1.1 --mode full --authorized
-  wraith.py --target myapp.com --mode osint
-  wraith.py --check-tools
-  wraith.py --interactive
+  cipher.py --target example.com --mode recon
+  cipher.py --target 192.168.1.1 --mode full --authorized
+  cipher.py --target myapp.com --mode osint
+  cipher.py --check-tools
+  cipher.py --interactive
         """
     )
     parser.add_argument("--target", "-t", help="Target domain or IP (must be authorized)")
