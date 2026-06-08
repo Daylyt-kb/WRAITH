@@ -37,3 +37,21 @@ Thumbs.db
 # API Keys — NEVER commit
 *.key
 secrets.json
+
+# Local Virtual Environments
+.venv/
+venv/
+env/
+
+# IDE / Editor Settings
+.claude/
+.cursorrules
+
+# Build/Workflow Instructions
+CLAUDE.md
+AGENTS.md
+plans/
+
+# Tests
+tests/
+
