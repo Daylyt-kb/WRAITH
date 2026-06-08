@@ -179,7 +179,8 @@ class AIProvider:
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
-        base_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        default_url = "https://openrouter.ai/api/v1" if self.provider == "openrouter" else "https://api.openai.com/v1"
+        base_url = os.environ.get("OPENAI_BASE_URL", default_url)
         return self._openai_compat_call(
             f"{base_url}/chat/completions", messages, max_tokens
         )
