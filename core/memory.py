@@ -133,7 +133,7 @@ class WraithMemory:
                  agent_sequence, outcome, findings_count, duration_seconds,
                  techniques, patterns_found, remediation_suggestions,
                  raw_summary, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 task_id, self.user_id,
                 task_data.get("task_type", "scan"),

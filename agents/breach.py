@@ -144,7 +144,8 @@ class BreachAgent(WraithAgent):
         domain = target.replace("https://", "").replace("http://", "").split("/")[0]
         base_url = f"https://{domain}"
 
-        self._audit("BREACH_START", {"target": target, "scope_token": getattr(scope, 'get_scope_token', lambda: 'unscoped')()})
+        scope_token = scope.get_scope_token() if scope and hasattr(scope, 'get_scope_token') else 'unscoped'
+        self._audit("BREACH_START", {"target": target, "scope_token": scope_token})
         print(f"  [BREACH] Controlled exploitation on: {target}")
         print(f"  [BREACH] Non-destructive canary payloads only.")
 
@@ -209,7 +210,7 @@ class BreachAgent(WraithAgent):
                 "target": target,
                 "start_time": start_time.isoformat(),
                 "end_time": datetime.now().isoformat(),
-                "scope_token": getattr(scope, 'get_scope_token', lambda: 'unscoped')(),
+                "scope_token": scope.get_scope_token() if scope and hasattr(scope, 'get_scope_token') else 'unscoped',
                 "audit_log": self.audit_log,
                 "findings": findings,
                 "canary_only": True,

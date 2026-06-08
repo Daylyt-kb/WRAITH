@@ -150,11 +150,7 @@ def test_ghost_tech_detect_no_ansi():
     assert "0m" not in valid, f"ANSI artifact in techs: {valid}"
     print(f"ANSI clean test: {valid}")
 
-def test_netlify_toml_exists():
-    import os
-    assert os.path.exists("netlify.toml"), "netlify.toml missing"
-    content = open("netlify.toml").read()
-    assert "landing" in content
+# netlify.toml is private only, so test is removed in public repo
 
 
 

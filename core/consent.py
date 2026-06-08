@@ -1,1 +1,1 @@
-from core.scope import ConsentManager
+from core.consent_form import ConsentManager

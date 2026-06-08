@@ -442,8 +442,6 @@ class AIProvider:
             return os.environ.get("OLLAMA_HOST", provider_info.get("base_default", "http://localhost:11434"))
         if self.provider == "lmstudio":
             return os.environ.get("LMSTUDIO_HOST", provider_info.get("base_default", "http://localhost:1234"))
-        if self.provider == "ollama":
-            return os.environ.get("OLLAMA_HOST", provider_info.get("base_default", "http://localhost:11434"))
         base = provider_info.get("base_default", "")
         env_key = provider_info.get("base_env", "")
         if env_key:

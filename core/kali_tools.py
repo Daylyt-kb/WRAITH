@@ -10,6 +10,7 @@ Risk levels: low, medium, high, critical (require authorization escalation)
 import os
 import re
 import json
+import shutil
 import subprocess
 from typing import Optional, Dict, List
 from datetime import datetime
@@ -104,14 +105,7 @@ class KaliTool:
 
     def is_available(self) -> bool:
         """Check if this tool is installed on the system."""
-        try:
-            result = subprocess.run(
-                ["which", self.name],
-                capture_output=True, text=True, timeout=5
-            )
-            return result.returncode == 0
-        except Exception:
-            return False
+        return shutil.which(self.name) is not None
 
     def install(self) -> str:
         """Return the installation command for this tool."""

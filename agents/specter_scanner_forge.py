@@ -586,6 +586,8 @@ if __name__ == "__main__":
         fname = "./wraith_output/scripts/forge_subdomain_enum.py"
         with open(fname, "w") as f:
             f.write(script)
+        return f"[FORGE] Subdomain enum script generated and saved to: {fname}\n\n{script}"
+
     def _header_check_script(self) -> str:
         script = """#!/usr/bin/env python3
 import requests

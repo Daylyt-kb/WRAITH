@@ -97,9 +97,15 @@ class Sandbox:
         return self._run_docker(command, tool)
 
     def _run_docker(self, command: str, tool: str) -> dict:
-        """Run command inside a Docker container."""
+        """Run command inside a Docker container with on-demand tool install."""
         image = f"wraith-{self.profile}:latest"
         start_time = time.time()
+
+        # Use KaliVMManager to ensure tools are available
+        from core.kali_vm import KaliVMManager
+        vm = KaliVMManager(profile=self.profile)
+        if tool:
+            vm.ensure_tools([tool])
 
         # Build docker run command
         docker_cmd = [

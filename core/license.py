@@ -14,7 +14,7 @@ from datetime import datetime
 
 # WRAITH license key format: WRAITH-XXXX-XXXX-XXXX
 # Validation is local — no phone-home required
-LICENSE_SECRET = "wraith-v2-god-tier-2026"  # Used for key validation
+LICENSE_SECRET = os.environ.get("WRAITH_LICENSE_SECRET", "")  # Must be set via env
 
 
 class LicenseManager:

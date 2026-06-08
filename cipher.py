@@ -61,11 +61,16 @@ BANNER = r"""
 
 
 def print_banner():
-    if RICH:
-        console.print(BANNER, style="bold red")
-        console.print("  [dim]github.com/your-handle/wraith[/dim]\n")
-    else:
-        print(BANNER)
+    try:
+        if RICH:
+            console.print(BANNER, style="bold red")
+            console.print("  [dim]github.com/your-handle/wraith[/dim]\n")
+        else:
+            print(BANNER)
+    except Exception:
+        # Fallback to plain ASCII representation if unicode block chars fail
+        print("\n  WRAITH — AI Security Swarm")
+        print("  Legal by design. Brutal by capability.\n")
 
 
 def check_dependencies():
